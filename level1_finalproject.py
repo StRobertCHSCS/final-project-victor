@@ -18,11 +18,11 @@ gate_open_1 = 0
 gate_open_2 = 0
 win = 0
 
-level2 = False
+level2 = 0
 
 def player():
     global GRID, x, y, color, row, column, player_row, player_column, open, gate_open_1, gate_open_2, win, open2, level2, key_get_1, key_get_2
-    if level2 != True:
+    if level2 == 0:
         row = player_row
         column = player_column
         GRID[row][column] = 2
@@ -48,7 +48,8 @@ def player():
             GRID[11][7] = 5
             GRID[13][12] = 7
             grid_reset()
-            level2 = True
+            print(GRID)
+            level2 = 1
 
         if win == 1:
             win = 2
@@ -85,22 +86,23 @@ def player():
                 GRID[13][12] = 2
 
 def player2():
-    global level2, player_column, player_row, row2, column2, GRID
-    if level2 == True:
-        row2 = player_row
-        column2 = player_column
-        GRID[row2][column2] = 2
+    global level2, player_column, player_row, row2, column2, GRID2
+    if level2 == 1:
+        row = player_row
+        column = player_column
+        GRID[row][column] = 2
         arcade.draw_rectangle_filled(x, y, 23.1, 23.1, color)
 
 def grid_reset():
-    global GRID, grid_row, grid_column
+    global GRID, grid_row, grid_column, row
     GRID = []
     grid_row = []
     grid_column = []
 
+
 def on_draw():
-    global GRID, color, column, row, x, y, win, row2, column2
-    if level2 == False:
+    global GRID, color, column, row, x, y, win, row2, column2, GRID2, level2
+    if level2 == 0:
         if win == 0:
             for row in range(ROW_COUNT):
                 for column in range(COLUMN_COUNT):
@@ -193,35 +195,37 @@ def on_draw():
         arcade.draw_text("Keys:", 505, 180, arcade.color.WHITE, 12)
         arcade.draw_text("Gates:", 650, 180, arcade.color.WHITE, 12)
 
-    if level2 == True:
-        for row2 in range(20):
-            for column2 in range(21):
-                print(row2, column2)
-                print(win)
-                if row == 0 or row == 19 or (column == 0 and row != 1) or (column == 19 and row != 18):
-                    GRID[row2][column2] = 1
-                if column == 20:
-                    GRID[row2][column2] = 3
+    if level2 == 1:
+        level2setup()
+        second_draw()
 
-                if GRID[row2][column2] == 0:
-                    color = arcade.color.WHITE
-                elif GRID[row2][column2] == 1:
-                    color = arcade.color.PURPLE
-                elif GRID[row2][column2] == 2:
-                    color = arcade.color.BLUE
-                elif GRID[row2][column2] == 3:
-                    color = arcade.color.BLACK
 
-                x = (1 + 23.1) * column2 + 1 + 23.1 // 2
-                y = (1 + 23.1) * row2 + 1 + 23.1 // 2
-                arcade.draw_rectangle_filled(x, y, 23.1, 23.1, color)
+def second_draw():
+    global GRID, row, column, color, level2, x, y
+    for row in range(20):
+        for column in range(21):
+            print(row, column)
+            if row == 0 or row == 19 or (column == 0 and row != 1) or (column == 19 and row != 18):
+                GRID[row][column] = 1
+            if column == 20:
+                GRID[row][column] = 3
+
+            if GRID[row][column] == 0:
+                color = arcade.color.WHITE
+            elif GRID[row][column] == 1:
+                color = arcade.color.PURPLE
+            elif GRID[row][column] == 2:
+                color = arcade.color.BLUE
+            elif GRID[row][column] == 3:
+                color = arcade.color.BLACK
+
+            x = (1 + 23.1) * column + 1 + 23.1 // 2
+            y = (1 + 23.1) * row + 1 + 23.1 // 2
+            arcade.draw_rectangle_filled(x, y, 23.1, 23.1, color)
 
         player2()
 
-        arcade.draw_text("LEVEL 2", 545, 400, arcade.color.RED, 20)
-
-
-
+    arcade.draw_text("LEVEL 2", 545, 400, arcade.color.RED, 20)
 
 def on_update(delta_time):
     pass
@@ -265,7 +269,7 @@ def key():
 
 def on_key_press(key, modifiers):
     global column, row, player_row, player_column, key_get_1, win, gate_open_1, key_get_2, gate_open_2, row2, column2
-    if level2 == False:
+    if level2 == 0:
         if key == arcade.key.D and GRID[row][column+1] != 1 and column != 14 and GRID[row][column+1] != 2 and GRID[row][column+1] != 7:
             player_column += 1
             column += 1
@@ -312,49 +316,56 @@ def on_key_press(key, modifiers):
             GRID[13][12] = 7
             win = 0
 
-    if level2 == True:
-        if key == arcade.key.D and GRID[row2][column2+1] != 1 and column2 != 19 and GRID[row2][column2+1] != 2 and GRID[row2][column2+1] != 7:
+def key2():
+    if level2 == 1:
+        if key == arcade.key.D and GRID[row][column+1] != 1 and column != 19 and GRID[row][column+1] != 2 and GRID[row][column+1] != 7:
             player_column += 1
-            column2 += 1
-            grid_row.append(row2)
-            grid_column.append(column2)
-            GRID[row2][column2] = 2
-            GRID[row2][column2-1] = 2
-        if key == arcade.key.W and GRID[row+1][column2] != 1 and GRID[row2+1][column2] != 5 and GRID[row2+1][column2] != 2:
+            column += 1
+            grid_row.append(row)
+            grid_column.append(column)
+            GRID[row][column] = 2
+            GRID[row][column-1] = 2
+        if key == arcade.key.W and GRID[row+1][column] != 1 and GRID[row+1][column] != 5 and GRID[row+1][column] != 2:
             player_row += 1
-            row2 += 1
-            grid_row.append(row2)
-            grid_column.append(column2)
-            GRID[row2][column2] = 2
-            GRID[row2-1][column2] = 2
-        if key == arcade.key.S and GRID[row2-1][column2] != 1 and GRID[row2-1][column2] != 5 and GRID[row2-1][column2] != 2:
+            row += 1
+            grid_row.append(row)
+            grid_column.append(column)
+            GRID[row][column] = 2
+            GRID[row-1][column] = 2
+        if key == arcade.key.S and GRID[row-1][column] != 1 and GRID[row-1][column] != 5 and GRID[row-1][column] != 2:
             player_row -= 1
-            row2 -= 1
-            grid_row.append(row2)
-            grid_column.append(column2)
-            GRID[row2][column2] = 2
-            GRID[row2+1][column2] = 2
-        if (key == arcade.key.A and GRID[row2][column2-1] != 1) and GRID[row2][column2-1] != 2 and not (key == arcade.key.A and player_row == 1 and player_column == 0):
+            row -= 1
+            grid_row.append(row)
+            grid_column.append(column)
+            GRID[row][column] = 2
+            GRID[row+1][column] = 2
+        if (key == arcade.key.A and GRID[row][column-1] != 1) and GRID[row][column-1] != 2 and not (key == arcade.key.A and player_row == 1 and player_column == 0):
             player_column -= 1
-            column2 -= 1
-            grid_row.append(row2)
-            grid_column.append(column2)
-            GRID[row2][column2] = 2
-            GRID[row2][column2+1] = 2
+            column -= 1
+            grid_row.append(row)
+            grid_column.append(column)
+            GRID[row][column] = 2
+            GRID[row][column+1] = 2
         if key == arcade.key.K:
             player_row = 1
             player_column = 0
             for i in range(len(grid_row)):
                 for j in range(len(grid_column)):
                     GRID[grid_row[i]][grid_column[j]] = 0
-            if GRID[row2][column2] == 2:
-                GRID[row2][column2] = 0
-
+            if GRID[row][column] == 2:
+                GRID[row][column] = 0
 
 def on_key_release(arcade_key_d, modifiers):
     global column, row, player_row, player_column
     pass
 
+def level2setup():
+    grid_reset()
+    print("help")
+    for row in range(20):
+        GRID.append([])
+        for column in range(21):
+             GRID[row].append(0)
 
 def setup():
     global GRID, row, column, row2, column2
@@ -372,17 +383,10 @@ def setup():
     window.on_update = on_update
 
 
-    if level2 == False:
-        for row in range(ROW_COUNT):
-            GRID.append([])
-            for column in range(COLUMN_COUNT):
-                GRID[row].append(0)
-    if level2 == True:
-        grid_reset()
-        for row2 in range(20):
-            GRID.append([])
-            for column2 in range(21):
-                GRID[row2].append(0)
+    for row in range(ROW_COUNT):
+        GRID.append([])
+        for column in range(COLUMN_COUNT):
+            GRID[row].append(0)
     arcade.run()
 
 if __name__ == '__main__':

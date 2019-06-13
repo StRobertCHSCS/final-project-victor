@@ -197,6 +197,12 @@ def on_draw():
         arcade.draw_text("Keys:", 505, 180, arcade.color.WHITE, 12)
         arcade.draw_text("Gates:", 650, 180, arcade.color.WHITE, 12)
 
+        arcade.draw_text("W: Move Up", 545, 340, arcade.color.WHITE, 12)
+        arcade.draw_text("A: Move Left", 545, 320, arcade.color.WHITE, 12)
+        arcade.draw_text("S: Move Down", 545, 300, arcade.color.WHITE, 12)
+        arcade.draw_text("D: Move Right", 545, 280, arcade.color.WHITE, 12)
+        arcade.draw_text("K: Reset Level", 545, 260, arcade.color.WHITE, 12)
+
     if level2 == 1:
         arcade.draw_rectangle_filled(400, 300, 1200, 600, arcade.color.BLACK)
         arcade.draw_text("LEVEL 1 COMPLETE!!!", 135, 250, arcade.color.WHITE, 30)
@@ -226,6 +232,62 @@ def second_draw():
             x = (1 + 23.1) * column + 1 + 23.1 // 2
             y = (1 + 23.1) * row + 1 + 23.1 // 2
             arcade.draw_rectangle_filled(x, y, 23.1, 23.1, color)
+
+            #rows
+            for c in range(1,4):
+                GRID[2][c] = 1
+            for c in range(5,9):
+                GRID[2][c] = 1
+            for c in range(10,20):
+                GRID[2][c] = 1
+            for c in range(1,3):
+                GRID[4][c] = 1
+            for c in range(4,13):
+                GRID[4][c] = 1
+            for c in range(14,20):
+                GRID[4][c] = 1
+            for c in range(3,13):
+                GRID[6][c] = 1
+            for c in range(16,20):
+                GRID[6][c] = 1
+            for c in range(1,17):
+                GRID[8][c] = 1
+            for c in range(1,10):
+                GRID[11][c] = 1
+            for c in range(11,13):
+                GRID[11][c] = 1
+            for c in range(14,19):
+                GRID[11][c] = 1
+            for c in range(3,6):
+                GRID[13][c] = 1
+            for c in range(7,17):
+                GRID[13][c] = 1
+            for c in range(1,3):
+                GRID[15][c] = 1
+            for c in range(4,11):
+                GRID[15][c] = 1
+            for c in range(12,19):
+                GRID[15][c] = 1
+            for c in range(1,19):
+                GRID[17][c] = 1
+
+            # single blocks
+            GRID[3][7] = 1
+            GRID[5][14] = 1
+            GRID[6][1] = 1
+            GRID[6][14] = 1
+            GRID[8][18] = 1
+            GRID[9][4] = 1
+            GRID[9][8] = 1
+            GRID[9][11] = 1
+            GRID[9][16] = 1
+            GRID[10][2] = 1
+            GRID[10][6] = 1
+            GRID[10][14] = 1
+            GRID[12][11] = 1
+            GRID[13][1] = 1
+            GRID[13][18] = 1
+            GRID[14][4] = 1
 
         player2()
 
@@ -320,6 +382,9 @@ def on_key_press(key, modifiers):
             GRID[11][7] = 5
             GRID[13][12] = 7
             win = 0
+        if key == arcade.key.P:
+            player_row = 13
+            player_column = 13
 
     if level2 == 1:
         if key == arcade.key.D and GRID[row][column+1] != 1 and column != 19 and GRID[row][column+1] != 2 and GRID[row][column+1] != 7:

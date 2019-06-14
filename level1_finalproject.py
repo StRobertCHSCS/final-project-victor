@@ -54,9 +54,6 @@ def player():
             timer = 0
             level2 = 1
 
-        if win == 1:
-            win = 2
-
         if win == 0:
             # teleporters
             if player_column == 7 and player_row == 3:
@@ -95,6 +92,48 @@ def player2():
         column = player_column
         GRID[row][column] = 2
         arcade.draw_rectangle_filled(x, y, 23.1, 23.1, color)
+
+        #teleporters
+        if win == 2:
+            # teleporter 1
+            if player_row == 1 and player_column == 18:
+                player_row = 18
+                player_column = 2
+                GRID[1][18] = 1
+                GRID[18][1] = 1
+            # teleporter 2
+            if player_row == 5 and player_column == 1:
+                player_row = 9
+                player_column = 1
+                GRID[5][1] = 1
+                GRID[10][1] = 1
+            if player_row == 10 and player_column == 1:
+                player_row = 5
+                player_column = 2
+                GRID[5][1] = 1
+                GRID[10][1] = 1
+            # teleporter 3
+            if player_row == 5 and player_column == 18:
+                player_row = 3
+                player_column = 17
+                GRID[5][18] = 1
+                GRID[3][18] = 1
+            if player_row == 3 and player_column == 18:
+                player_row = 5
+                player_column = 17
+                GRID[5][18] = 1
+                GRID[3][18] = 1
+            # teleporter 4
+            if player_row == 16 and player_column == 1:
+                player_row = 16
+                player_column = 17
+                GRID[16][1] = 1
+                GRID[16][18] = 1
+            if player_row == 16 and player_column == 18:
+                player_row = 16
+                player_column = 2
+                GRID[16][1] = 1
+                GRID[16][18] = 1
 
 def grid_reset():
     global GRID, grid_row, grid_column, row
@@ -207,6 +246,7 @@ def on_draw():
         arcade.draw_rectangle_filled(400, 300, 1200, 600, arcade.color.BLACK)
         arcade.draw_text("LEVEL 1 COMPLETE!!!", 135, 250, arcade.color.WHITE, 30)
         if timer > 4:
+            win = 2
             arcade.draw_rectangle_filled(400, 300, 1200, 600, arcade.color.BLACK)
             second_draw()
 
@@ -221,13 +261,37 @@ def second_draw():
                 GRID[row][column] = 3
 
             if GRID[row][column] == 0:
-                color = arcade.color.WHITE
+                color = arcade.color.BLACK
             elif GRID[row][column] == 1:
                 color = arcade.color.PURPLE
             elif GRID[row][column] == 2:
                 color = arcade.color.BLUE
             elif GRID[row][column] == 3:
                 color = arcade.color.BLACK
+            elif GRID[row][column] == 4:
+                color = arcade.color.BLUEBERRY
+            elif GRID[row][column] == 5:
+                color = arcade.color.VIOLET_RED
+            elif GRID[row][column] == 6:
+                color = arcade.color.INDIGO
+            elif GRID[row][column] == 7:
+                color = arcade.color.PURPLE_PIZZAZZ
+            elif GRID[row][column] == 8:
+                color = arcade.color.YELLOW
+            elif GRID[row][column] == 9:
+                color = arcade.color.DARK_YELLOW
+            elif GRID[row][column] == 10:
+                color = arcade.color.GREEN
+            elif GRID[row][column] == 11:
+                color = arcade.color.BOTTLE_GREEN
+            elif GRID[row][column] == 12:
+                color = arcade.color.RED
+            elif GRID[row][column] == 13:
+                color = arcade.color.BRICK_RED
+            elif GRID[row][column] == 14:
+                color = arcade.color.DARK_GRAY
+            elif GRID[row][column] == 15:
+                color = arcade.color.GRAY
 
             x = (1 + 23.1) * column + 1 + 23.1 // 2
             y = (1 + 23.1) * row + 1 + 23.1 // 2
@@ -289,7 +353,19 @@ def second_draw():
             GRID[13][18] = 1
             GRID[14][4] = 1
 
+            # teleporter blocks
+            GRID[1][18] = 4
+            GRID[18][1] = 4
+            GRID[5][1] = 5
+            GRID[10][1] = 5
+            GRID[5][18] = 6
+            GRID[3][18] = 6
+            GRID[16][1] = 7
+            GRID[16][18] = 7
+
         player2()
+        gate()
+        key()
 
     arcade.draw_text("LEVEL 2", 545, 400, arcade.color.RED, 20)
 
@@ -298,41 +374,58 @@ def on_update(delta_time):
     timer += delta_time
 
 def gate():
-    global GRID, row, column, player_column, player_row, key_get_1, gate_open_1, gate_open_2, key_get_2
-    GRID[11][7] = 5
-    GRID[13][12] = 7
-    if key_get_1 > 0 and player_column == 7 and player_row == 11:
-        GRID[11][7] = 2
-        gate_open_1 += 1
-    if gate_open_1 > 0:
-        GRID[11][7] = 2
-    else:
-        GRID[11][7] = 5
-    if key_get_2 > 0 and player_column == 12 and player_row == 13:
-        GRID[13][12] = 2
-        gate_open_2 += 1
-    if gate_open_2 > 0:
-        GRID[13][12] = 2
-    else:
-        GRID[13][12] = 7
+    global GRID, row, column, player_column, player_row, key_get_1, gate_open_1, gate_open_2, key_get_2, level2
+    if level2 == 0:
+        # level 1 gates
+        if key_get_1 > 0 and player_column == 7 and player_row == 11:
+            GRID[11][7] = 2
+            gate_open_1 += 1
+        if gate_open_1 > 0:
+            GRID[11][7] = 2
+        else:
+            GRID[11][7] = 5
+        if key_get_2 > 0 and player_column == 12 and player_row == 13:
+            GRID[13][12] = 2
+            gate_open_2 += 1
+        if gate_open_2 > 0:
+            GRID[13][12] = 2
+        else:
+            GRID[13][12] = 7
+
+    if level2 == 1:
+        # level 2 gates
+        GRID[1][11] = 8
+        GRID[10][8] = 10
+        GRID[6][15] = 12
+        GRID[13][17] = 14
+
 
 def key():
     global GRID, row, column, open, player_column, player_row, key_get_1, gate_open_1, open2, key_get_2
-    GRID[9][3] = 6
-    GRID[10][9] = 8
-    open = False
-    open2 = False
-    if player_column == 3 and player_row == 9:
-        GRID[9][3] = 2
-        key_get_1 += 1
-    if key_get_1 > 0:
-        open = True
+    if level2 == 0:
+        GRID[9][3] = 6
+        GRID[10][9] = 8
+        open = False
+        open2 = False
+        if player_column == 3 and player_row == 9:
+            GRID[9][3] = 2
+            key_get_1 += 1
+        if key_get_1 > 0:
+            open = True
 
-    if player_column == 9 and player_row == 10:
-        GRID[10][9] = 2
-        key_get_2 += 1
-    if key_get_2 > 0:
-        open2 = True
+        if player_column == 9 and player_row == 10:
+            GRID[10][9] = 2
+            key_get_2 += 1
+        if key_get_2 > 0:
+            open2 = True
+
+    if level2 == 1:
+        GRID[3][14] = 9
+        GRID[5][8] = 11
+        GRID[11][13] = 13
+        GRID[16][14] = 15
+
+
 
 def on_key_press(key, modifiers):
     global column, row, player_row, player_column, key_get_1, win, gate_open_1, key_get_2, gate_open_2, row2, column2, GRID, level2
@@ -386,22 +479,22 @@ def on_key_press(key, modifiers):
             player_row = 13
             player_column = 13
 
-    if level2 == 1:
-        if key == arcade.key.D and GRID[row][column+1] != 1 and column != 19 and GRID[row][column+1] != 2 and GRID[row][column+1] != 7:
+    if level2 == 1 and win == 2:
+        if key == arcade.key.D and GRID[row][column+1] != 1 and column != 19 and GRID[row][column+1] != 2:
             player_column += 1
             column += 1
             grid_row.append(row)
             grid_column.append(column)
             GRID[row][column] = 2
             GRID[row][column-1] = 2
-        if key == arcade.key.W and GRID[row+1][column] != 1 and GRID[row+1][column] != 5 and GRID[row+1][column] != 2:
+        if key == arcade.key.W and GRID[row+1][column] != 1 and GRID[row+1][column] != 2:
             player_row += 1
             row += 1
             grid_row.append(row)
             grid_column.append(column)
             GRID[row][column] = 2
             GRID[row-1][column] = 2
-        if key == arcade.key.S and GRID[row-1][column] != 1 and GRID[row-1][column] != 5 and GRID[row-1][column] != 2:
+        if key == arcade.key.S and GRID[row-1][column] != 1 and GRID[row-1][column] != 2:
             player_row -= 1
             row -= 1
             grid_row.append(row)

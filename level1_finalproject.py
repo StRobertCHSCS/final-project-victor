@@ -737,7 +737,7 @@ def level2setup():
              GRID[row].append(0)
 
 def setup():
-    global GRID, row, column, background_sound, key_sound, teleport_sound, complete
+    global GRID, row, column, key_sound, teleport_sound, complete
 
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "My Arcade Game")
     # level 1 setup
@@ -756,12 +756,9 @@ def setup():
         for column in range(COLUMN_COUNT):
             GRID[row].append(0)
 
-    background_sound = arcade.load_sound("sounds/background.wav")
     key_sound = arcade.load_sound("sounds/keysound.wav")
     teleport_sound = arcade.load_sound("sounds/teleport.wav")
     complete = arcade.load_sound("sounds/complete.wav")
-
-    arcade.play_sound(background_sound)
 
     arcade.run()
 

@@ -350,6 +350,7 @@ def second_draw():
             if column == 20:
                 GRID[row][column] = 3
 
+            # list all possible variables and the corresponding color
             if GRID[row][column] == 0:
                 color = arcade.color.BLACK
             elif GRID[row][column] == 1:

@@ -29,3 +29,7 @@ The player must now deal with 4 gates and 4 teleporters.
 When the player beats the level they recieve a screen that congratulates them.
 
 ## Miscellaneous
+Here are the concept arts for the two levels
+![The first basic concept art for a simple level. The extra key was removed as it was useless](rtfyguhi.PNG)
+
+![The concept art for the second level, planned out on actual grid paper](20190619_200329.jpg)

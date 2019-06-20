@@ -37,4 +37,4 @@ The first basic concept art for a simple level while I was still testing the pos
 
 ![](https://github.com/StRobertCHSCS/final-project-victor/blob/master/images/20190619_200329.jpg)
 
-The concept art for the second level, planned out on actual grid paper
+The concept art for the second level, planned out on actual grid paper. This resembles the final level entirely.

@@ -31,6 +31,10 @@ When the player beats the level they recieve a screen that congratulates them.
 ## Miscellaneous
 Here are the concept arts for the two levels
 
-![The first basic concept art for a simple level. The extra key was removed as it was useless](https://github.com/StRobertCHSCS/final-project-victor/blob/master/images/rtfyguhi.PNG)
+![](https://github.com/StRobertCHSCS/final-project-victor/blob/master/images/rtfyguhi.PNG)
 
-![The concept art for the second level, planned out on actual grid paper](https://github.com/StRobertCHSCS/final-project-victor/blob/master/images/20190619_200329.jpg)
+The first basic concept art for a simple level. The extra key was removed as it was useless
+
+![](https://github.com/StRobertCHSCS/final-project-victor/blob/master/images/20190619_200329.jpg)
+
+The concept art for the second level, planned out on actual grid paper

@@ -12,7 +12,7 @@
 import arcade
 # create the dimensions of all elements of the grid for the first level
 WIDTH = 30
-HEIGHT= 30
+HEIGHT = 30
 MARGIN = 2
 ROW_COUNT = 15
 COLUMN_COUNT = 16
@@ -35,7 +35,7 @@ gate_open_1 = 0
 gate_open_2 = 0
 gate_open_3 = 0
 gate_open_4 = 0
-#create a variable for when the player beats the level
+# create a variable for when the player beats the level
 win = 0
 
 # create a variable that determines which level the game is on the timer between levels
@@ -46,98 +46,99 @@ def player():
     """Defines the abilities of the player for the first level"""
     # assign global variables
     global GRID, x, y, color, row, column, player_row, player_column, open1, open2, gate_open_1, gate_open_2, win, level2, key_get_1, key_get_2, timer, HEIGHT, WIDTH, MARGIN
-        # assign this code to run only if it is in the first level
-        if level2 == 0:
-            # make the player have a unique grid variable to identify where it is
-            row = player_row
-            column = player_column
-            GRID[row][column] = 2
-            arcade.draw_rectangle_filled(x, y, WIDTH, HEIGHT, color)
-            # tell the code that the level has been beaten when the player reaches a certain point
-            if player_column == 14 and player_row == 13:
-                win += 1
-            # create code that allows the player to interact with the gates, keys, and teleporters
-            if win == 0:
-                # code for the teleporter interaction
-                if player_column == 7 and player_row == 3:
-                    player_column = 3
-                    player_row = 4
-                    arcade.play_sound(teleport_sound)
-                    GRID[3][3] = 1
-                    GRID[3][7] = 1
-                if player_column == 3 and player_row == 3:
-                    player_column = 7
-                    player_row = 4
-                    arcade.play_sound(teleport_sound)
-                    GRID[3][3] = 1
-                    GRID[3][7] = 1
+    # assign this code to run only if it is in the first level
+    if level2 == 0:
+        # make the player have a unique grid variable to identify where it is
+        row = player_row
+        column = player_column
+        GRID[row][column] = 2
+        arcade.draw_rectangle_filled(x, y, WIDTH, HEIGHT, color)
+        # tell the code that the level has been beaten when the player reaches a certain point
+        if player_column == 14 and player_row == 13:
+            win += 1
+        # create code that allows the player to interact with the gates, keys, and teleporters
+        if win == 0:
+            # code for the teleporter interaction
+            if player_column == 7 and player_row == 3:
+                player_column = 3
+                player_row = 4
+                arcade.play_sound(teleport_sound)
+                GRID[3][3] = 1
+                GRID[3][7] = 1
+            if player_column == 3 and player_row == 3:
+                player_column = 7
+                player_row = 4
+                arcade.play_sound(teleport_sound)
+                GRID[3][3] = 1
+                GRID[3][7] = 1
 
-                # code for the gate interaction so that the gate square becomes the appropriate colour when the player crosses it
-                # yellow gate
-                if open1 == True and gate_open_1 == 0:
-                    GRID[9][3] = 2
-                    GRID[11][7] = 0
-                if open1 == True and gate_open_1 > 0:
-                    GRID[11][7] = 2
-                    GRID[9][3] = 2
-                # green gate
-                if open2 == True and gate_open_2 == 0:
-                    GRID[10][9] = 2
-                    GRID[13][12] = 0
-                if open2 == True and gate_open_2 > 0:
-                    GRID[10][9] = 2
-                    GRID[13][12] = 2
+            # code for the gate interaction so that the gate square becomes the appropriate colour when the player crosses it
+            # yellow gate
+            if open1 == True and gate_open_1 == 0:
+                GRID[9][3] = 2
+                GRID[11][7] = 0
+            if open1 == True and gate_open_1 > 0:
+                GRID[11][7] = 2
+                GRID[9][3] = 2
+            # green gate
+            if open2 == True and gate_open_2 == 0:
+                GRID[10][9] = 2
+                GRID[13][12] = 0
+            if open2 == True and gate_open_2 > 0:
+                GRID[10][9] = 2
+                GRID[13][12] = 2
 
-                # code that moves the player when it grabs a key so that the key sound will not constantly play
-                # yellow key
-                if (player_row == 9 and player_column == 3) and GRID[player_row-1][player_column] == 2:
-                    player_row = 10
-                    row = player_row
-                if (player_row == 9 and player_column == 3) and GRID[player_row+1][player_column] == 2:
-                    player_row = 8
-                    row = player_row
-                # green key
-                if (player_row == 10 and player_column == 9) and GRID[player_row][player_column+1] == 2:
-                    player_column = 8
-                    column = player_column
-                if (player_row == 10 and player_column == 9) and GRID[player_row][player_column-1] == 2:
-                    player_column = 10
-                    column = player_column
-            # create code for when the player does finish the level
-            if win == 1:
-                # reset the player position
-                player_row = 1
-                player_column = 0
-                # remove the player path
-                for i in range(len(grid_row)):
-                    for j in range(len(grid_column)):
-                        GRID[grid_row[i]][grid_column[j]] = 0
-                if GRID[row][column] == 2:
-                    GRID[row][column] = 0
-                # reset the keys and gates and their relative functions
-                GRID[9][3] = 6
-                GRID[10][9] = 8
-                open1 = False
-                key_get_1 = 0
-                key_get_2 = 0
-                gate_open_1 = 0
-                gate_open_2 = 0
-                GRID[11][7] = 5
-                GRID[13][12] = 7
-                # change the height, width and margin of the grid squares for the next level
-                HEIGHT = 23.1
-                WIDTH = 23.1
-                MARGIN = 1
-                # reset the grid values
-                grid_reset()
-                # create a large square to cover up the previous level
-                arcade.draw_rectangle_filled(400, 300, 1200, 600, arcade.color.BLACK)
-                # play a victory sound
-                arcade.play_sound(complete)
-                # activate the setup of the next level
-                level2setup()
-                timer = 0
-                level2 = 1
+            # code that moves the player when it grabs a key so that the key sound will not constantly play
+            # yellow key
+            if (player_row == 9 and player_column == 3) and GRID[player_row-1][player_column] == 2:
+                player_row = 10
+                row = player_row
+            if (player_row == 9 and player_column == 3) and GRID[player_row+1][player_column] == 2:
+                player_row = 8
+                row = player_row
+            # green key
+            if (player_row == 10 and player_column == 9) and GRID[player_row][player_column+1] == 2:
+                player_column = 8
+                column = player_column
+            if (player_row == 10 and player_column == 9) and GRID[player_row][player_column-1] == 2:
+                player_column = 10
+                column = player_column
+        # create code for when the player does finish the level
+        if win == 1:
+            # reset the player position
+            player_row = 1
+            player_column = 0
+            # remove the player path
+            for i in range(len(grid_row)):
+                for j in range(len(grid_column)):
+                    GRID[grid_row[i]][grid_column[j]] = 0
+            if GRID[row][column] == 2:
+                GRID[row][column] = 0
+            # reset the keys and gates and their relative functions
+            GRID[9][3] = 6
+            GRID[10][9] = 8
+            open1 = False
+            open2 = False
+            key_get_1 = 0
+            key_get_2 = 0
+            gate_open_1 = 0
+            gate_open_2 = 0
+            GRID[11][7] = 5
+            GRID[13][12] = 7
+            # change the height, width and margin of the grid squares for the next level
+            HEIGHT = 23.1
+            WIDTH = 23.1
+            MARGIN = 1
+            # reset the grid values
+            grid_reset()
+            # create a large square to cover up the previous level
+            arcade.draw_rectangle_filled(400, 300, 1200, 600, arcade.color.BLACK)
+            # play a victory sound
+            arcade.play_sound(complete)
+            # activate the setup of the next level
+            level2setup()
+            timer = 0
+            level2 = 1
 
 def player2():
     """Defines the abilities of the player in the second level"""
@@ -159,7 +160,7 @@ def player2():
                 arcade.play_sound(teleport_sound)
                 GRID[1][18] = 1
                 GRID[18][1] = 1
-            # pink teleporter interaction
+            # beige teleporter interaction
             # lower entrance
             if player_row == 5 and player_column == 1:
                 player_row = 9
@@ -189,7 +190,7 @@ def player2():
                 arcade.play_sound(teleport_sound)
                 GRID[5][18] = 1
                 GRID[3][18] = 1
-            # lavender teleporter interaction
+            # pink teleporter interaction
             # left entrance
             if player_row == 16 and player_column == 1:
                 player_row = 16
@@ -272,7 +273,6 @@ def player2():
         # create a change of the player's position to prevent the completion sound from constantly playing
         if player_column == 19 and player_row == 19:
             win = 3
-
 
 def grid_reset():
     """Resets all grid-related variables"""
@@ -444,13 +444,13 @@ def second_draw():
             # blue teleporter
             elif GRID[row][column] == 4:
                 color = arcade.color.BLUEBERRY
-            # pink teleporter
+            # beige teleporter
             elif GRID[row][column] == 5:
                 color = arcade.color.VIOLET_RED
             # indigo teleporter
             elif GRID[row][column] == 6:
                 color = arcade.color.INDIGO
-            # lavendar teleporter
+            # pink teleporter
             elif GRID[row][column] == 7:
                 color = arcade.color.PURPLE_PIZZAZZ
             # yellow gate
@@ -543,13 +543,13 @@ def second_draw():
             # blue tele
             GRID[1][18] = 4
             GRID[18][1] = 4
-            # pink tele
+            # beige tele
             GRID[5][1] = 5
             GRID[10][1] = 5
             # indigo tele
             GRID[5][18] = 6
             GRID[3][18] = 6
-            # lavendar tele
+            # pink tele
             GRID[16][1] = 7
             GRID[16][18] = 7
 
@@ -580,13 +580,13 @@ def second_draw():
     # blue teleporters
     arcade.draw_rectangle_filled(525, 175, 25, 25, arcade.color.BLUEBERRY)
     arcade.draw_rectangle_filled(675, 175, 25, 25, arcade.color.BLUEBERRY)
-    # pink teleporters
+    # beige teleporters
     arcade.draw_rectangle_filled(525, 140, 25, 25, arcade.color.VIOLET_RED)
     arcade.draw_rectangle_filled(675, 140, 25, 25, arcade.color.VIOLET_RED)
     # indigo teleporters
     arcade.draw_rectangle_filled(525, 105, 25, 25, arcade.color.INDIGO)
     arcade.draw_rectangle_filled(675, 105, 25, 25, arcade.color.INDIGO)
-    # lavendar teleporters
+    # pink teleporters
     arcade.draw_rectangle_filled(525, 70, 25, 25, arcade.color.PURPLE_PIZZAZZ)
     arcade.draw_rectangle_filled(675, 70, 25, 25, arcade.color.PURPLE_PIZZAZZ)
     arcade.draw_text("teleporters", 560, 120, arcade.color.WHITE, 13)
@@ -873,7 +873,7 @@ def on_key_press(key, modifiers):
 def level2setup():
     """Creates the setup for the grid of the second level"""
     # define global variables
-    global row, column, GRID, timer, background_sound
+    global row, column, GRID, timer
     # set up the grid for the second level
     for row in range(20):
         GRID.append([])

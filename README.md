@@ -33,7 +33,7 @@ Here are the concept arts for the two levels
 
 ![](https://github.com/StRobertCHSCS/final-project-victor/blob/master/images/rtfyguhi.PNG)
 
-The first basic concept art for a simple level. The extra key was removed as it was useless
+The first basic concept art for a simple level while I was still testing the possibility of doing this game. The extra key was removed as it was useless
 
 ![](https://github.com/StRobertCHSCS/final-project-victor/blob/master/images/20190619_200329.jpg)
 
